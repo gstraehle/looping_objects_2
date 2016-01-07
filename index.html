@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <style>
+    body {
+      background-color: #cfc;
+    }
+    path {
+      fill: #bdb;
+      stroke: none;
+      stroke-width: 1px;
+    }
+    circle circle2{
+      fill: red;
+      stroke: black;
+      stroke-width: 0px;
+    }
+    circle2 {
+      fill: none;
+    }
+  </style>
+</head>
+<body>
+
+
+
+</body>
+
+<script>
+  var counter = 1,
+    timing = 50,//sets running time for the first circle
+    points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
+
+  var svg = d3.select("body").append("svg")//find body element and add shape
+    .attr("width", 12000)
+    .attr("height", 800);
+
+  var path = svg.append("path")//get that shape and add a path
+    .data([points])//data is the points defined above
+    .attr("d", d3.svg.line()
+    .tension(0.5)//adjusts the path between points
+    .interpolate("cardinal-closed"));//closes the points into a continuous shape
+
+  var circles = svg.selectAll("circle")
+      .data([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]).enter()
+      .append("svg:circle")
+      .attr("transform", "translate(" + points[0] + ")");
+
+  var translateAlong = function(path) {//how we get the circle to follow the path
+    var l = path.getTotalLength();
+    return function(d, i, a) {
+      return function(t) {
+        var p = path.getPointAtLength(t * l);
+        return "translate(" + p.x + "," + p.y + ")";
+      };
+    };
+  };
+
+  function transitionLogic(d,i){
+    counter++;
+    counter % 50 < 25 ? timing*=1.3 : timing/=1.3;
+    d3.select(this).transition()
+     .duration(timing)
+     .delay(250*i)
+      .ease("linear")//removes slow start and stop
+      .attrTween("transform", translateAlong(path.node()))
+      .style('fill', '#' + Math.floor(Math.random()*16777215).toString(16))
+      .attr('r', Math.sqrt(timing) * 1.25)
+      .each("end", transitionLogic);
+  }
+
+  circles.each(transitionLogic);//calls circle to run
+</script>
