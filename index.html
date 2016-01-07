@@ -5,10 +5,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <style>
     body {
-      background-color: #cfc;
+      background-color: #ffff99;
     }
     path {
-      fill: #bdb;
+      fill: #ffffa8;
       stroke: none;
       stroke-width: 1px;
     }
@@ -27,7 +27,7 @@
       position: fixed;
       right: 20px;
       top: 20px;
-      width: 200px;
+      width: 150px;
     }
     dl {
       margin-bottom: 0;
@@ -49,6 +49,15 @@
         <option value="-2">Corners</option>
       </select>
     </dt>
+    <dl>Speed</dl>
+    <dt>
+      <select style="width: 125px;" id="speed">
+        <option value="5">Electron</option>
+        <option value="25">Red Bull</option>
+        <option selected="true" value="100">Normal</option>
+        <option value="800">DMV</option>
+      </select>
+    </dt>
     <input type="button" id="restart" style="cursor: pointer; margin-top: 20px;" value="Restart Animation"></input>
 
 </div>
@@ -62,24 +71,18 @@
   for (var i = 0; i < circleCount; i++) {
     pointArray.push(0);
   }
+  var timing = parseInt($('#speed').val());
   var pathPattern = parseFloat($('#pathpattern').val());
-
-
-
-  var counter = 1,
-    timing = 50,//sets running time for the first circle
-    points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
-
+  var counter = 1;
+  var points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
   var svg = d3.select("body").append("svg")//find body element and add shape
     .attr("width", 12000)
     .attr("height", 800);
-
   var path = svg.append("path")//get that shape and add a path
     .data([points])//data is the points defined above
     .attr("d", d3.svg.line()
     .tension(pathPattern)//adjusts the path between points
     .interpolate("cardinal-closed"));//closes the points into a continuous shape
-
   var circles = svg.selectAll("circle")
       .data(pointArray).enter()
       .append("svg:circle")
@@ -111,23 +114,25 @@
   circles.each(transitionLogic);//calls circle to run
 
   $('#restart').click(function(){
+    $('path').remove();
+    circles.remove();
+    counter = 1;
+    timing = parseInt($('#speed').val());
     circleCount = parseInt($('#circlecount').val());
     pathPattern = parseFloat($('#pathpattern').val());
     pointArray = [];
     for (var i = 0; i < circleCount; i++) {
       pointArray.push(0);
     }
-    circles.remove();
-    circles = svg.selectAll("circle")
-      .data(pointArray).enter()
-      .append("svg:circle")
-      .attr("transform", "translate(" + points[0] + ")");
-    path = svg.remove("path").append("path")//get that shape and add a path
+    path = svg.append("path")//get that shape and add a path
     .data([points])//data is the points defined above
     .attr("d", d3.svg.line()
     .tension(pathPattern)//adjusts the path between points
     .interpolate("cardinal-closed"));//closes the points into a continuous shape
-
+    circles = svg.selectAll("circle")
+      .data(pointArray).enter()
+      .append("svg:circle")
+      .attr("transform", "translate(" + points[0] + ")");
     circles.each(transitionLogic);
   });
 </script>
