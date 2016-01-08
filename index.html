@@ -53,9 +53,9 @@
       <select id="pathpattern">
         <option selected="true" value="0.5">Infinity</option>
         <option value="1">Diamonds</option>
-        <option value="2">Spades</option>
-        <option value="4">Big Apple</option>
-        <option value="-2">Chaos</option>
+        <option value="1.6">Spades</option>
+        <option value="5">Biohazard</option>
+        <option value="-2">Corners</option>
       </select>
     </dt>
     <dl>Speed</dl>
@@ -83,7 +83,7 @@
   var timing = parseInt($('#speed').val());
   var pathPattern = parseFloat($('#pathpattern').val());
   var counter = 1;
-  var points = [[600,400],[800, 200],[1000, 400],[800, 600],[600,400],[400, 200],[200, 400],[400, 600]];//defines points in order
+  var points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
   var svg = d3.select("body").append("svg")//find body element and add shape
     .attr("width", 12000)
     .attr("height", 800);
@@ -93,9 +93,9 @@
     .tension(pathPattern)//adjusts the path between points
     .interpolate("cardinal-closed"));//closes the points into a continuous shape
   var circles = svg.selectAll("circle")
-      .data(pointArray).enter()
-      .append("svg:circle")
-      .attr("transform", "translate(" + points[0] + ")");
+    .data(pointArray).enter()
+    .append("svg:circle")
+    ;
 
   var translateAlong = function(path) {//how we get the circle to follow the path
     var l = path.getTotalLength();
@@ -109,13 +109,13 @@
 
   function transitionLogic(d,i){
     counter++;
-    counter % 50 < 25 ? timing*=1.3 : timing/=1.3;
+    counter % 60 < 30 ? timing*=1.25 : timing/=1.25;
     if(d3.select(this)[0][0].style.display === "none"){
       return;
     }//quick fix to stop the formula from running on unused circles hidden on button click
     d3.select(this).transition()
      .duration(timing)
-     .delay(250*i)
+     .delay(0)
       .ease("linear")//removes slow start and stop
       .attrTween("transform", translateAlong(path.node()))
       .style('fill', '#' + Math.floor(Math.random()*16777215).toString(16))
