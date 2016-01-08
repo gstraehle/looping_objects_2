@@ -53,9 +53,9 @@
       <select id="pathpattern">
         <option selected="true" value="0.5">Infinity</option>
         <option value="1">Diamonds</option>
-        <option value="5">Biohazard</option>
-        <option value="10">Spastic</option>
-        <option value="-2">Corners</option>
+        <option value="2">Spades</option>
+        <option value="4">Big Apple</option>
+        <option value="-2">Chaos</option>
       </select>
     </dt>
     <dl>Speed</dl>
@@ -83,7 +83,7 @@
   var timing = parseInt($('#speed').val());
   var pathPattern = parseFloat($('#pathpattern').val());
   var counter = 1;
-  var points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
+  var points = [[600,400],[800, 200],[1000, 400],[800, 600],[600,400],[400, 200],[200, 400],[400, 600]];//defines points in order
   var svg = d3.select("body").append("svg")//find body element and add shape
     .attr("width", 12000)
     .attr("height", 800);
