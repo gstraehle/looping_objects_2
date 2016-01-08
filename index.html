@@ -110,6 +110,9 @@
   function transitionLogic(d,i){
     counter++;
     counter % 50 < 25 ? timing*=1.3 : timing/=1.3;
+    if(d3.select(this)[0][0].style.display === "none"){
+      return;
+    }//quick fix to stop the formula from running on unused circles hidden on button click
     d3.select(this).transition()
      .duration(timing)
      .delay(250*i)
@@ -124,6 +127,7 @@
   circles.each(transitionLogic);//calls circle to run
 
   $('#restart').click(function(){
+    $('circle').hide();//transitionLogic will look for hidden circles and stop them.
     $('path').remove();
     circles.remove();
     counter = 1;
