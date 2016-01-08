@@ -61,10 +61,10 @@
     <dl>Speed</dl>
     <dt>
       <select id="speed">
-        <option value="5">Electron</option>
-        <option value="25">Red Bull</option>
-        <option selected="true" value="100">Normal</option>
-        <option value="800">DMV</option>
+        <option value="20">Electron</option>
+        <option value="75">Red Bull</option>
+        <option selected="true" value="200">Normal</option>
+        <option value="1000">DMV</option>
       </select>
     </dt>
     <input type="button" id="restart" value="Restart Animation"></input>
@@ -83,7 +83,7 @@
   var timing = parseInt($('#speed').val());
   var pathPattern = parseFloat($('#pathpattern').val());
   var counter = 1;
-  var points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
+  var points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600],[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
   var svg = d3.select("body").append("svg")//find body element and add shape
     .attr("width", 12000)
     .attr("height", 800);
@@ -94,8 +94,7 @@
     .interpolate("cardinal-closed"));//closes the points into a continuous shape
   var circles = svg.selectAll("circle")
     .data(pointArray).enter()
-    .append("svg:circle")
-    ;
+    .append("svg:circle");
 
   var translateAlong = function(path) {//how we get the circle to follow the path
     var l = path.getTotalLength();
@@ -109,7 +108,7 @@
 
   function transitionLogic(d,i){
     counter++;
-    counter % 60 < 30 ? timing*=1.25 : timing/=1.25;
+    counter % 50 < 25 ? timing*=1.25 : timing/=1.25;
     if(d3.select(this)[0][0].style.display === "none"){
       return;
     }//quick fix to stop the formula from running on unused circles hidden on button click
