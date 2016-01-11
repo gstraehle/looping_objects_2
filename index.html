@@ -27,7 +27,7 @@
       width: 15%;
     }
     dl {
-      margin-bottom: 0;
+      margin: 0;
     }
     #restart{
       cursor: pointer;
@@ -37,25 +37,33 @@
       border-radius:5px;
       font-size: 1em;
     }
-    input, select{
-      width: 100%;
+    input{
+      width: 93%;
     }
-    @media only screen and (max-width: 950px) {
+
+    select{
+      width: 96%;
+    }
+    @media only screen and (max-width: 1050px) and (orientation: portrait){
       #options {
         bottom: 0;
-        width: 96%;
-        right: 0;
-        padding: 2%;
+        width: 100%;
+        left: 0;
+        padding: 10px;
         border-radius: 0;
       }
       #restart{
         width: 80%;
         margin: 2% 10% 0 10%;
-        border-radius:5px;
-        font-size: 1.5em;
+        border-radius: 5px;
+        font-size: 1.3em;
       }
       input, select{
-        font-size: 1.2em;
+        font-size: 1.1em;
+        height: 5%;
+      }
+      input{
+      width: 95%;
       }
     }
   </style>
@@ -102,7 +110,7 @@
   var counter = 1;
   var points = [[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600],[800, 200],[1000, 400],[800, 600],[400, 200],[200, 400],[400, 600]];//defines points in order
   var svg = d3.select("body").append("svg")//find body element and add shape
-    .attr("width", 12000)
+    .attr("width", 1200)
     .attr("height", 800);
   var path = svg.append("path")//get that shape and add a path
     .data([points])//data is the points defined above
