@@ -45,6 +45,12 @@
     select{
       width: 96%;
     }
+    #show,#hide{
+      float: right;
+      color: lightgray;
+      cursor: pointer;
+      margin-right: 5%
+    }
     @media only screen and (max-width: 1050px) and (orientation: portrait){
       #options {
         bottom: 0;
@@ -70,9 +76,9 @@
   </style>
 </head>
 <body>
-<button id="show" hidden style="float: right; color: lightgray; cursor: pointer;">show</button>
+<button id="show" hidden>show</button>
 <div id="options">
-  <button id="hide" style="float: right; color: lightgray; cursor: pointer;">hide</button>
+  <button id="hide">hide</button>
   <h4 style="margin-top: 0;">OBJECT CONTROL</h4>
     <dl>Number of circles</dl>
     <dt><input type="number" id="circlecount" value=8></input></dt>
